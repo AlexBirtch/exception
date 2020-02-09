@@ -34,19 +34,31 @@ directories = {
 def lists():
     for document in documents:
         try:
-            print(document.get("type"), document.get("number"), document.get("name"))
+            # print(document.get("type"), document.get("number"), document.get("name"))
+            print(f"{document['type']} \"{document['number']}\" \"{document['name']}\"")
+
         except KeyError:
             print(f'[ОШИБКА] у документа № {document["number"]} отсутствует поле "name"')
 
 def people():
     number_document = input('Введите номер документа: ')
-    for document in documents:
-        if document.get("number") == number_document:
-            print('\n', document.get("name"))
-            break
-    else:
-        print('Такого документа нет в каталоге, создайте его ')
-        add()
+    try:
+        # for document in documents:
+        #     if document.get("number") == number_document:
+        #         print(f"'\n' {document.get('name')}")
+        #         break
+        # else:
+        #     print('Такого документа нет в каталоге, создайте его ')
+        #     add()
+        for document in documents:
+            for item in document:
+                if number_document == document[item]:
+                    return document['name']
+        return 'Такого документа нет'
+    except KeyError:
+        return 'У данного документа нет поля "name"'
+    except Exception as e:
+        return f'[ОШИБКА] {e}'
 
 
 
@@ -100,7 +112,7 @@ def main():
      as – add shelf – команда, которая спросит номер новой полки и добавит ее в перечень;\n\
      q - quit - команда для завершения программы.''\n\n-->')
         if ask == 'p':
-            people()
+            print(people())
             continue
         if ask == 'l':
             lists()
